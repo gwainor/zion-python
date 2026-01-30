@@ -1,0 +1,14 @@
+[project]
+name = "zion-utils"
+version = "0.1.0"
+description = "Utility functions for python projects"
+readme = "README.md"
+authors = [
+    { name = "gwainor", email = "me@gokhan.tr" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
