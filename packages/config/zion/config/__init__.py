@@ -37,9 +37,9 @@ class _Settings:
 
 
 if TYPE_CHECKING:
+
     class _SettingsObject:
         def __getattr__(self, item: Any) -> Any: ...
-
 
     class _Settings(_SettingsObject): ...
 
@@ -51,5 +51,3 @@ __all__ = [
     "settings",
     "AppConf",
 ]
-
-

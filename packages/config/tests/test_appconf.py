@@ -39,7 +39,7 @@ def test_appconf_meta_required_passes():
 
         class Meta:
             prefix = "test"
-            required = ['SOME_SETTING']
+            required = ["SOME_SETTING"]
 
     assert settings.TEST_SOME_SETTING == "overriden value"
 
@@ -49,12 +49,13 @@ def test_appconf_meta_required_throws_error():
 
     # User must define `TEST_REQUIRED_FIELD` in the settings
     with pytest.raises(ValueError):
+
         class Conf(AppConf):
             SOME_SETTING = "some value"
 
             class Meta:
                 prefix = "test"
-                required = ['REQUIRED_FIELD']
+                required = ["REQUIRED_FIELD"]
 
 
 def test_configure_method_overrides_setting_module_value():

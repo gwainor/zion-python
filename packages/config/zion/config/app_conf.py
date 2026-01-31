@@ -13,7 +13,7 @@ class AppConfOptions:
         env_settings = os.environ.get(ENVIRONMENT_VARIABLE, None)
         self.holder_path = getattr(meta, "holder", env_settings)
         self.holder = import_attribute(self.holder_path)
-        self.required = getattr(meta, 'required', [])
+        self.required = getattr(meta, "required", [])
         self.names = {}
         self.defaults = {}
         self.configured_data = {}
@@ -45,7 +45,9 @@ class AppConfMetaClass(type):
         prefix = getattr(meta, "prefix", None)
 
         if prefix is None:
-            raise ValueError("`app_label` or `prefix` must be defined in the AppConf Meta!")
+            raise ValueError(
+                "`app_label` or `prefix` must be defined in the AppConf Meta!"
+            )
 
         new_class._meta = AppConfOptions(meta, prefix)
 
@@ -68,6 +70,7 @@ class AppConfMetaClass(type):
             setattr(new_class, name, value)
 
         from zion.config import settings
+
         new_class._configure()
         for name, value in new_class._meta.configured_data.items():
             prefixed_config_name = new_class._meta.prefixed_name(name)
@@ -77,7 +80,9 @@ class AppConfMetaClass(type):
         for name in new_class._meta.required:
             prefixed_config_name = new_class._meta.prefixed_name(name)
             if not hasattr(new_class._meta.holder, prefixed_config_name):
-                raise ValueError(f"The required setting {prefixed_config_name} is missing.")
+                raise ValueError(
+                    f"The required setting {prefixed_config_name} is missing."
+                )
 
         return new_class
 
@@ -116,4 +121,3 @@ class AppConf(metaclass=AppConfMetaClass):
 
     def configure(self):
         return self.configured_data
-
