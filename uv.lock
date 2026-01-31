@@ -4,6 +4,7 @@ requires-python = ">=3.12"
 
 [manifest]
 members = [
+    "zion-config",
     "zion-python",
     "zion-utils",
 ]
@@ -272,6 +273,11 @@ wheels = [
 ]
 
 [[package]]
+name = "zion-config"
+version = "0.1.0"
+source = { editable = "packages/config" }
+
+[[package]]
 name = "zion-python"
 version = "0.1.0"
 source = { virtual = "." }
@@ -298,5 +304,5 @@ dev = [
 
 [[package]]
 name = "zion-utils"
-version = "0.1.0"
-source = { editable = "packages/zion-utils" }
+version = "0.1.2"
+source = { editable = "packages/utils" }

@@ -1,0 +1,5 @@
+SIMPLE_VALUE = True
+
+TEST_SOME_SETTING = "overriden value"
+
+TEST_CONFIGURED_SETTING = "wrong"
