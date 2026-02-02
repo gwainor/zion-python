@@ -10,6 +10,10 @@ class Conf(AppConf):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     OAUTH2_SCHEME = OAuth2PasswordBearer(tokenUrl="/api/v1/login")
+    SERVICES: dict[str, str] = {
+        "USER": "zion.auth.services.UserService",
+        "TOKEN": "zion.auth.services.TokenService",
+    }
 
     class Meta:
         prefix = "auth"
