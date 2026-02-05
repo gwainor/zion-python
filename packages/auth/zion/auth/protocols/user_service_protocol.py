@@ -5,8 +5,8 @@ from zion.auth.models import User
 
 
 class UserServiceProtocol(metaclass=abc.ABCMeta):
-    def __init__(self, db: AsyncSession) -> None:
-        raise NotImplementedError
+    def __init__(self, session: AsyncSession) -> None:
+        self.session = session
 
     @abc.abstractmethod
     async def get_by_id(self, id: int) -> User | None:

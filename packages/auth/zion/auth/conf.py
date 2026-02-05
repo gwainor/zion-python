@@ -13,7 +13,11 @@ class Conf(AppConf):
     SERVICES: dict[str, str] = {
         "USER": "zion.auth.services.UserService",
         "TOKEN": "zion.auth.services.TokenService",
+        "AUTH_VALIDATION": "zion.auth.services.AuthValidationService",
     }
+    USER_VALIDATORS: list[str] = [
+        "zion.auth.validators.user.is_deleted",
+    ]
 
     class Meta:
         prefix = "auth"
