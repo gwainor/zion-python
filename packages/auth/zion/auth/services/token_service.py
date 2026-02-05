@@ -11,10 +11,12 @@ from zion.utils.types import DictStrAny
 class TokenService(TokenServiceProtocol):
     async def _create(
         self,
-        token_type: TokenType,
+        token_type_str: TokenType,
         data: DictStrAny,
         expires_delta: dt.timedelta | None = None,
     ) -> str:
+        token_type = TokenType(token_type_str)
+
         if not expires_delta:
             match token_type:
                 case TokenType.ACCESS:
@@ -34,7 +36,7 @@ class TokenService(TokenServiceProtocol):
         to_encode.update({"exp": expire, "token_type": token_type})
         encoded_jwt = jwt.encode(
             to_encode,
-            settings.SECRET_KEY.get_secret_value(),
+            settings.AUTH_SECRET_KEY.get_secret_value(),
             algorithm=settings.AUTH_ALGORITHM,
         )
 
@@ -54,7 +56,7 @@ class TokenService(TokenServiceProtocol):
         try:
             payload = jwt.decode(
                 token,
-                settings.SECRET_KEY.get_secret_value(),
+                settings.AUTH_SECRET_KEY.get_secret_value(),
                 algorithms=[settings.AUTH_ALGORITHM],
             )
             credential: str | None = payload.get("sub")
