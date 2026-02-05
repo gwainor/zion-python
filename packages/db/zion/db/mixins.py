@@ -1,10 +1,11 @@
 import datetime as dt
 
-from sqlalchemy import Boolean, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from nanoid import generate
+from sqlalchemy import Boolean, DateTime, String
+from sqlalchemy.orm import Mapped, MappedAsDataclass, mapped_column
 
 
-class IdMixin:
+class IdMixin(MappedAsDataclass):
     id: Mapped[int] = mapped_column(
         primary_key=True,
         autoincrement=True,
@@ -12,7 +13,22 @@ class IdMixin:
     )
 
 
-class TimestampMixin:
+class PidMixin(MappedAsDataclass):
+    """Public ID field
+
+    The incremental integer primary keys might cause security vulnerabilities
+    since they are easily guessable.
+    """
+
+    pid: Mapped[str] = mapped_column(
+        String,
+        default_factory=lambda: generate(),
+        unique=True,
+        init=False,
+    )
+
+
+class TimestampMixin(MappedAsDataclass):
     created_at: Mapped[dt.datetime] = mapped_column(
         DateTime(timezone=True),
         default_factory=lambda: dt.datetime.now(dt.UTC),
@@ -27,7 +43,7 @@ class TimestampMixin:
     )
 
 
-class SoftDeleteMixin:
+class SoftDeleteMixin(MappedAsDataclass):
     deleted_at: Mapped[dt.datetime | None] = mapped_column(
         DateTime(timezone=True),
         default=None,
