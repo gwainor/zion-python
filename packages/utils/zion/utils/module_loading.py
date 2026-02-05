@@ -1,5 +1,5 @@
+import importlib
 import sys
-from importlib import import_module
 
 
 def cached_import(module_path: str, class_name: str):
@@ -8,7 +8,7 @@ def cached_import(module_path: str, class_name: str):
         and (spec := getattr(module, "__spec__", None))
         and getattr(spec, "_initializing", False) is False
     ):
-        module = import_module(module_path)
+        module = importlib.import_module(module_path)
 
     return getattr(module, class_name)
 
