@@ -4,6 +4,7 @@ from fastapi import Depends
 from zion.auth.conf import settings
 from zion.auth.protocols import (
     AuthValidationServiceProtocol,
+    PasswordServiceProtocol,
     TokenServiceProtocol,
     UserServiceProtocol,
 )
@@ -45,3 +46,14 @@ def get_auth_validation_service(
 AuthValidationServiceDep = Annotated[
     AuthValidationServiceProtocol, Depends(get_auth_validation_service)
 ]
+
+
+def get_password_service() -> PasswordServiceProtocol:
+    PasswordServiceCls: type[PasswordServiceProtocol] = import_string(
+        settings.AUTH_SERVICES.PASSWORD
+    )
+
+    return PasswordServiceCls()
+
+
+PasswordServiceDep = Annotated[PasswordServiceProtocol, Depends(get_password_service)]
