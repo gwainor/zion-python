@@ -17,6 +17,7 @@ class Conf(AppConf):
     }
     USER_VALIDATORS: list[str] = [
         "zion.auth.validators.user.is_deleted",
+        "zion.auth.validators.user.is_deactivated",
     ]
 
     class Meta:
