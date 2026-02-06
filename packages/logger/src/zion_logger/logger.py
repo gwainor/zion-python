@@ -3,7 +3,8 @@ import logging
 import orjson
 import structlog
 from structlog.typing import Processor
-from zion.logger import processors
+
+from . import processors
 
 
 def initialize_logger(

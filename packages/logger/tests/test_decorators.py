@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import pytest
 from structlog.testing import CapturedCall, CapturingLogger
-from zion.logger.decorators import log
+from zion_logger.decorators import log
 
 
 class AsyncCapturingLogger(CapturingLogger):

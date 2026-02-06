@@ -7,8 +7,9 @@ from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-from zion.db.base import DbBaseModel
-from zion.db.conf import settings
+
+from zion_db.base import DbBaseModel
+from zion_db.conf import settings
 
 # This is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

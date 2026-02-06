@@ -1,4 +1,4 @@
-from zion.config import AppConf, settings
+from zion_config import AppConf, settings
 
 
 class Conf(AppConf):

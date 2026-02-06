@@ -1,8 +1,8 @@
 import os
 from typing import Any
 
-from zion.config.constants import ENVIRONMENT_VARIABLE
-from zion.config.utils import import_attribute
+from .constants import ENVIRONMENT_VARIABLE
+from .utils import import_attribute
 
 
 class AppConfOptions:
