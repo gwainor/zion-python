@@ -2,8 +2,9 @@ import datetime as dt
 
 import pytest
 from jose import jwt
-from zion.auth.conf import settings
-from zion.auth.services.token_service import TokenService, TokenType
+
+from zion_auth.services.token import TokenService, TokenType
+from zion_auth.settings import settings
 
 
 def generate_token(
@@ -21,8 +22,8 @@ def generate_token(
     to_encode.update({"exp": expire, "token_type": token_type})
     token = jwt.encode(
         to_encode,
-        settings.AUTH_SECRET_KEY.get_secret_value(),
-        algorithm=settings.AUTH_ALGORITHM,
+        settings.secret_key.get_secret_value(),
+        algorithm=settings.token_algorithm,
     )
     return token
 
@@ -38,9 +39,9 @@ async def test_create_access_token_without_expire_delta_sucess():
 
     # Then
     assert isinstance(access_token, str)
-    token_data = token_service.verify(access_token, TokenType.ACCESS)
+    token_data = await token_service.verify(access_token, TokenType.ACCESS)
     assert token_data is not None
-    assert token_data.credential == data["sub"]
+    assert token_data.public_id == data["sub"]
 
 
 @pytest.mark.asyncio
@@ -57,9 +58,9 @@ async def test_create_access_token_with_expire_delta_success():
 
     # Then
     assert isinstance(access_token, str)
-    token_data = token_service.verify(access_token, TokenType.ACCESS)
+    token_data = await token_service.verify(access_token, TokenType.ACCESS)
     assert token_data is not None
-    assert token_data.credential == data["sub"]
+    assert token_data.public_id == data["sub"]
 
 
 @pytest.mark.asyncio
@@ -73,9 +74,9 @@ async def test_create_refresh_token_without_expire_delta_sucess():
 
     # Then
     assert isinstance(refresh_token, str)
-    token_data = token_service.verify(refresh_token, TokenType.REFRESH)
+    token_data = await token_service.verify(refresh_token, TokenType.REFRESH)
     assert token_data is not None
-    assert token_data.credential == data["sub"]
+    assert token_data.public_id == data["sub"]
 
 
 @pytest.mark.asyncio
@@ -92,9 +93,9 @@ async def test_create_refresh_token_with_expire_delta_success():
 
     # Then
     assert isinstance(refresh_token, str)
-    token_data = token_service.verify(refresh_token, TokenType.REFRESH)
+    token_data = await token_service.verify(refresh_token, TokenType.REFRESH)
     assert token_data is not None
-    assert token_data.credential == data["sub"]
+    assert token_data.public_id == data["sub"]
 
 
 @pytest.mark.asyncio
@@ -112,8 +113,9 @@ async def test_create_token_raises_value_error_with_unknown_token_type():
         await token_service._create("unknown_type", data, expires_delta=expires_delta)  # ty: ignore[invalid-argument-type]
 
 
+@pytest.mark.asyncio
 @pytest.mark.parametrize("token_type", [TokenType.ACCESS, TokenType.REFRESH])
-def test_verify_returns_none_with_expired_access_token(token_type):
+async def test_verify_returns_none_with_expired_access_token(token_type):
     # Given
     token_service = TokenService()
     delta = dt.timedelta(days=1)
@@ -121,20 +123,21 @@ def test_verify_returns_none_with_expired_access_token(token_type):
     token = generate_token(expire=expire, token_type=token_type)
 
     # When
-    token_data = token_service.verify(token, token_type)
+    token_data = await token_service.verify(token, token_type)
 
     # Then
     assert token_data is None
 
 
-def test_verify_returns_none_with_unknown_token_type():
+@pytest.mark.asyncio
+async def test_verify_returns_none_with_unknown_token_type():
     # Given
     token_service = TokenService()
     token_type = "unknown_type"
     token = generate_token(token_type=token_type)
 
     # When
-    token_data = token_service.verify(token, token_type)  # ty: ignore[invalid-argument-type]
+    token_data = await token_service.verify(token, token_type)  # ty: ignore[invalid-argument-type]
 
     # Then
     assert token_data is None

@@ -564,6 +564,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pydantic-settings"
+version = "2.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "typing-inspection" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/43/4b/ac7e0aae12027748076d72a8764ff1c9d82ca75a7a52622e67ed3f765c54/pydantic_settings-2.12.0.tar.gz", hash = "sha256:005538ef951e3c2a68e1c08b292b5f2e71490def8589d4221b95dab00dafcfd0", size = 194184, upload-time = "2025-11-10T14:25:47.013Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c1/60/5d4751ba3f4a40a6891f24eec885f51afd78d208498268c734e256fb13c4/pydantic_settings-2.12.0-py3-none-any.whl", hash = "sha256:fddb9fd99a5b18da837b29710391e945b1e30c135477f484084ee513adb93809", size = 51880, upload-time = "2025-11-10T14:25:45.546Z" },
+]
+
+[[package]]
 name = "pygments"
 version = "2.19.2"
 source = { registry = "https://pypi.org/simple" }
@@ -602,6 +616,15 @@ wheels = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.2.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/26/19cadc79a718c5edbec86fd4919a6b6d3f681039a2f6d66d14be94e75fb9/python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6", size = 44221, upload-time = "2025-10-26T15:12:10.434Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/1b/a298b06749107c305e1fe0f814c6c74aea7b2f1e10989cb30f544a1b3253/python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61", size = 21230, upload-time = "2025-10-26T15:12:09.109Z" },
+]
+
+[[package]]
 name = "python-jose"
 version = "3.5.0"
 source = { registry = "https://pypi.org/simple" }
@@ -622,6 +645,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/a2/86/d2eebedf861cc24e270a3b1ae6144155ac32a3e82cc157211f26d8be5e4b/python_nanoid-2.0.0.tar.gz", hash = "sha256:585b6e5ed5ad00433027e8164aea673dfbdc7ae22603f042b0466b1f7543ddeb", size = 4002, upload-time = "2024-10-22T11:40:14.835Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7c/49/3ab474eb20ba43424621d1875291a542dc607e30f36d15d2b69473fd7389/python_nanoid-2.0.0-py3-none-any.whl", hash = "sha256:fea83f148f2e9c90fa0d8757b8a99afa1f3e452c71c2ea07ed8f1b93e641a97d", size = 5228, upload-time = "2024-10-22T11:40:13.128Z" },
+]
+
+[[package]]
+name = "python-ulid"
+version = "3.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/40/7e/0d6c82b5ccc71e7c833aed43d9e8468e1f2ff0be1b3f657a6fcafbb8433d/python_ulid-3.1.0.tar.gz", hash = "sha256:ff0410a598bc5f6b01b602851a3296ede6f91389f913a5d5f8c496003836f636", size = 93175, upload-time = "2025-08-18T16:09:26.305Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6c/a0/4ed6632b70a52de845df056654162acdebaf97c20e3212c559ac43e7216e/python_ulid-3.1.0-py3-none-any.whl", hash = "sha256:e2cdc979c8c877029b4b7a38a6fba3bc4578e4f109a308419ff4d3ccf0a46619", size = 11577, upload-time = "2025-08-18T16:09:25.047Z" },
 ]
 
 [[package]]
@@ -844,31 +876,38 @@ name = "zion-auth"
 version = "0.1.0"
 source = { editable = "packages/auth" }
 dependencies = [
+    { name = "annotated-doc" },
     { name = "bcrypt" },
     { name = "email-validator" },
     { name = "fastapi" },
     { name = "pydantic" },
+    { name = "pydantic-settings" },
     { name = "python-jose" },
-    { name = "sqlalchemy" },
-    { name = "zion-config" },
-    { name = "zion-db" },
     { name = "zion-logger" },
     { name = "zion-utils" },
 ]
 
+[package.optional-dependencies]
+sqlalchemy = [
+    { name = "python-ulid" },
+    { name = "sqlalchemy" },
+]
+
 [package.metadata]
 requires-dist = [
+    { name = "annotated-doc", specifier = ">=0.0.4" },
     { name = "bcrypt", specifier = ">=5.0.0" },
     { name = "email-validator", specifier = ">=2.3.0" },
     { name = "fastapi", specifier = ">=0.128.0" },
     { name = "pydantic", specifier = ">=2.12.5" },
+    { name = "pydantic-settings", specifier = ">=2.12.0" },
     { name = "python-jose", specifier = ">=3.5.0" },
-    { name = "sqlalchemy", specifier = ">=2.0.46" },
-    { name = "zion-config", editable = "packages/config" },
-    { name = "zion-db", editable = "packages/db" },
+    { name = "python-ulid", marker = "extra == 'sqlalchemy'", specifier = ">=3.1.0" },
+    { name = "sqlalchemy", marker = "extra == 'sqlalchemy'", specifier = ">=2.0.46" },
     { name = "zion-logger", editable = "packages/logger" },
     { name = "zion-utils", editable = "packages/utils" },
 ]
+provides-extras = ["sqlalchemy"]
 
 [[package]]
 name = "zion-config"
@@ -919,12 +958,25 @@ version = "0.1.0"
 source = { virtual = "." }
 
 [package.dev-dependencies]
+all = [
+    { name = "aiosqlite" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "python-ulid" },
+    { name = "ruff" },
+    { name = "sqlalchemy" },
+    { name = "ty" },
+    { name = "zion-auth" },
+]
 dev = [
     { name = "aiosqlite" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
+    { name = "python-ulid" },
     { name = "ruff" },
+    { name = "sqlalchemy" },
     { name = "ty" },
     { name = "zion-auth" },
 ]
@@ -932,12 +984,25 @@ dev = [
 [package.metadata]
 
 [package.metadata.requires-dev]
+all = [
+    { name = "aiosqlite", specifier = ">=0.21.0" },
+    { name = "pre-commit", specifier = ">=4.5.1" },
+    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "pytest-asyncio", specifier = ">=1.3.0" },
+    { name = "python-ulid", specifier = ">=3.1.0" },
+    { name = "ruff", specifier = ">=0.14.14" },
+    { name = "sqlalchemy", specifier = ">=2.0.46" },
+    { name = "ty", specifier = ">=0.0.14" },
+    { name = "zion-auth", editable = "packages/auth" },
+]
 dev = [
     { name = "aiosqlite", specifier = ">=0.21.0" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-asyncio", specifier = ">=1.3.0" },
+    { name = "python-ulid", specifier = ">=3.1.0" },
     { name = "ruff", specifier = ">=0.14.14" },
+    { name = "sqlalchemy", specifier = ">=2.0.46" },
     { name = "ty", specifier = ">=0.0.14" },
     { name = "zion-auth", editable = "packages/auth" },
 ]

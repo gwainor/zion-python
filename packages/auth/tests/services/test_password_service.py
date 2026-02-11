@@ -1,19 +1,20 @@
 import pytest
-from zion.auth.services.password_service import PasswordService
+
+from zion_auth.services.password import PasswordService
 
 
 @pytest.mark.asyncio
 async def test_hash_password_success():
     # Given
-    password_service = PasswordService()
-    plain_password = "test_password_123"
+    service = PasswordService()
+    password = "test_password_123"
 
     # When
-    hashed_password = await password_service.hash(plain_password)
+    hashed_password = await service.hash(password)
 
     # Then
     assert isinstance(hashed_password, str)
-    assert hashed_password != plain_password
+    assert hashed_password != password
     assert len(hashed_password) > 0
 
 

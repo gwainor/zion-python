@@ -31,6 +31,18 @@ def import_string(dotted_path: str):
         ) from err
 
 
+def import_dependable(import_str: str):
+    klass = import_string(import_str)
+
+    if not hasattr(klass, "get_dependency"):
+        raise AttributeError(
+            "The Dependable class must have `get_dependency` classmethod."
+        )
+
+    return klass.get_dependency
+
+
 __all__ = [
     "import_string",
+    "import_dependable",
 ]
